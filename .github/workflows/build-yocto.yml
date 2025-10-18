@@ -2,15 +2,11 @@ name: Build Yocto
 
 on:
   workflow_dispatch:
-    outputs:
-      artifacts_url:
-        description: "URL to retrieve build artifacts"
-        value: ${{ jobs.create-output.outputs.url }}
 
 env:
   CACHE_DIR: /local/mnt/workspace/qli/meta-qcom
-  KAS_REPO_REF_DIR: /local/mnt/workspace/meta-qcom/kas-mirrors
-  KAS_CONTAINER: /local/mnt/workspace/meta-qcom/kas-mirrors/kas-container
+  KAS_REPO_REF_DIR: /local/mnt/workspace/qli/meta-qcom/kas-mirrors
+  KAS_CONTAINER: /local/mnt/workspace/qli/meta-qcom/kas-mirrors/kas-container
 
 jobs:
   kas-setup:
@@ -70,14 +66,9 @@ jobs:
       matrix:
         machine:
           - qcs6490-rb3gen2-core-kit
-          - qcom-armv8a
         distro:
-          - name: poky-altcfg
-            yamlfile: ""
           - name: qcom-distro
             yamlfile: ':ci/qcom-distro.yml'
-          - name: qcom-distro-prop-image
-            yamlfile: ':ci/qcom-distro-prop-image.yml'
         kernel:
           - type: default
             dirname: ""
@@ -164,25 +155,3 @@ jobs:
           kernel_dirname: ${{matrix.kernel.dirname}}
           cache_dir: ${CACHE_DIR}
           kas: ${KAS_CONTAINER}
-
-  create-output:
-    needs: compile
-    outputs:
-      url: ${{ steps.print-output.outputs.url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Print output"
-        id: print-output
-        env:
-          build_url: ${{ needs.compile.outputs.url }}
-        run: |
-          echo "Downloads URL: ${build_url}"
-          echo "url=\"${build_url}\"" >> $GITHUB_OUTPUT
-          echo "${build_url}" > build_url
-          echo "## Download URL" >> $GITHUB_STEP_SUMMARY
-          echo "[${build_url}](${build_url})" >> $GITHUB_STEP_SUMMARY
-      - name: Upload build URL
-        uses: actions/upload-artifact@v4
-        with:
-          name: build_url
-          path: build_url
