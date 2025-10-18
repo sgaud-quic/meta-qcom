@@ -29,6 +29,7 @@ runs:
     - name: Setup build variables and sstate-cache
       shell: bash
       run: |
+        set -eux -o pipefail
         # use a monthly sstate cache folder
         echo "DL_DIR=${{inputs.cache_dir}}/downloads" >> $GITHUB_ENV
         echo "SSTATE_DIR=${{inputs.cache_dir}}/sstate-cache-$(date '+%Y-%m')" >> $GITHUB_ENV
@@ -37,6 +38,7 @@ runs:
     - name: Dump kas-build yaml
       shell: bash
       run: |
+        set -eux -o pipefail
         mkdir $KAS_WORK_DIR
         ${{inputs.kas}} dump --resolve-env --resolve-local --resolve-refs \
           ci/mirror.yml:ci/${{ inputs.machine }}.yml${{ inputs.distro_yaml }}${{ inputs.kernel_yaml }} > kas-build.yml
@@ -44,6 +46,7 @@ runs:
     - name: Kas qcom world build
       shell: bash
       run: |
+        set -eux -o pipefail
         ${{inputs.kas}} build ci/mirror.yml:ci/${{ inputs.machine }}.yml${{ inputs.distro_yaml }}${{ inputs.kernel_yaml }}:ci/world.yml
         ci/kas-container-shell-helper.sh ci/yocto-pybootchartgui.sh
         mv $KAS_WORK_DIR/build/buildchart.svg buildchart-world.svg
@@ -51,6 +54,7 @@ runs:
     - name: Kas build images
       shell: bash
       run: |
+        set -eux -o pipefail
         ${{inputs.kas}} build ci/mirror.yml:ci/${{ inputs.machine }}.yml${{ inputs.distro_yaml }}${{ inputs.kernel_yaml }}
         ci/kas-container-shell-helper.sh ci/yocto-pybootchartgui.sh
         mv $KAS_WORK_DIR/build/buildchart.svg .
