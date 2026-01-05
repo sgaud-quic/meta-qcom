@@ -1,8 +1,8 @@
-# Mapping from a DTB name (without the .dtb extension) to its
+# Mapping from a DTB (and optional overlays on top) to its
 # Device Tree "compatible" string(s).
 #
 # Syntax:
-# FIT_DTB_COMPATIBLE[<dtb-name>] = "<compatible>[ <compatible>[ <compatible>...]]"
+# FIT_DTB_COMPATIBLE[<dtb-name>[+<overlay>[+<overlay>...]]] = "<compatible>[ <compatible>[ <compatible>...]]"
 
 FIT_DTB_COMPATIBLE[apq8016-sbc] = "qcom,apq8016-sbc"
 FIT_DTB_COMPATIBLE[apq8096-db820c] = "qcom,apq8096-sbc"
