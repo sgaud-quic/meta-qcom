@@ -12,6 +12,8 @@ LINUX_VERSION ?= "6.18"
 
 PV = "${LINUX_VERSION}"
 
+FILESEXTRAPATHS:prepend := "${THISDIR}/linux-qcom-6.18:"
+
 # tag: qcom-6.18.y-20260128
 SRCREV ?= "cdc4617fae333fe78b4375c00f48f047a6129f81"
 
