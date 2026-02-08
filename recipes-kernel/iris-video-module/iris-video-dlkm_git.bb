@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
 
 PV = "0.0+git"
 
-SRC_URI = "git://github.com/qualcomm-linux/video-driver.git;protocol=https;branch=video.qclinux.0.0"
-SRCREV  = "c70ab433d51dc5d12c5e7e1810e5c9c4b2661201"
+SRC_URI = "git://github.com/qualcomm-linux/video-driver.git;protocol=https;branch=video.qclinux.main"
+SRCREV  = "0e0fe75fb1910e011358485b078ea207a5c5f3e7"
 
 inherit module
 
