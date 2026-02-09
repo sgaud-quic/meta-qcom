@@ -59,7 +59,7 @@ do_install() {
 
 PACKAGE_BEFORE_PN += "camx-kodiak chicdk-kodiak"
 RDEPENDS:${PN} += "chicdk-kodiak"
-RDEPENDS:${pn}-dev += "camxcommon-headers-dev"
+RDEPENDS:${PN}-dev += "camxcommon-headers-dev"
 
 FILES:camx-kodiak = "\
     ${libdir}/libcamera_hardware_kodiak*${SOLIBS} \
