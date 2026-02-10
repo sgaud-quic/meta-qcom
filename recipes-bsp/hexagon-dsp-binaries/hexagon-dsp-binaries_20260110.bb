@@ -23,6 +23,7 @@ NO_GENERIC_LICENSE[dspso-WHENCE] = "WHENCE"
 SRC_URI = " \
     git://github.com/linux-msm/dsp-binaries;protocol=https;branch=trunk;tag=${PV} \
     file://0001-conf-link-DB845c-to-SDM845-HDK.patch \
+    file://0001-conf-add-DSP_LIBRARY_PATH-for-Lemans-Ride-variants.patch \
 "
 
 SRCREV = "9efc74739b457bed846e53bb8cf46d524ce58791"
