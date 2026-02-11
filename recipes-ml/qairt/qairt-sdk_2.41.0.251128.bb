@@ -16,6 +16,10 @@ SRC_URI[sha256sum] = "c6306f7d70457e4d8736416bb406d8670f5186fb648dd6808db24e9b21
 
 S = "${UNPACKDIR}/qairt/${PV}"
 
+# We need host tools during the build:
+#  - patchelf-native: to patch DT_NEEDED entries in prebuilt .so files
+#  - binutils-native: for readelf to inspect NEEDED
+DEPENDS = "patchelf-native binutils-native"
 
 # The SDK ships multiple toolchain-specific lib directories with names
 # like "aarch64-oe-linux-gcc8.2", "aarch64-oe-linux-gcc9.3", etc.
@@ -68,8 +72,21 @@ do_install() {
     cp -r ${S}/bin/${PLATFORM_DIR}/* ${D}${bindir}
 }
 
-# Skip file-rdeps due to prebuilt libhta_hexagon_runtime_snpe with mismatched SONAME.
-INSANE_SKIP:${PN} += "file-rdeps"
+# Some shared libraries depend on the unversioned 'libcdsprpc.so',
+# while the provider (fastrpc) exports the versioned SONAME 'libcdsprpc.so.1'.
+# Rewrite DT_NEEDED from libcdsprpc.so to libcdsprpc.so.1 for affected libraries
+# to avoid packaging/runtime dependency mismatches.
+#
+# Can be dropped once fixed upstream (planned in QAIRT SDK v2.45)
+do_patch_qairt_needed_soname() {
+    for so in ${D}${libdir}/lib*.so; do
+        if readelf -d "$so" 2>/dev/null | grep -q "NEEDED.*libcdsprpc\.so"; then
+            patchelf --replace-needed libcdsprpc.so "libcdsprpc.so.1" "$so"
+        fi
+    done
+}
+
+addtask patch_qairt_needed_soname after do_install before do_package
 
 # SDK ships already-stripped proprietary binaries
 # which need not be re-striped or split into debug symbols.
