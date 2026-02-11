@@ -60,6 +60,10 @@ FIT_DTB_COMPATIBLE[qcs9100-ride-r3+sa8775p-ride-camx] = " \
     qcom,qcs9100-qamr2-camx \
     qcom,qcs9100v2-qamr2-camx \
 "
+FIT_DTB_COMPATIBLE[qcs9100-ride-r3+fdt-lemans-el2] = " \
+    qcom,qcs9100-qamr2-el2kvm \
+    qcom,qcs9100v2-qamr2-el2kvm \
+"
 FIT_DTB_COMPATIBLE[qrb2210-rb1] = "qcom,qrb2210-rb1"
 FIT_DTB_COMPATIBLE[qrb4210-rb2] = "qcom,qrb4210-rb2"
 FIT_DTB_COMPATIBLE[qrb5165-rb5] = "qcom,qrb5165-rb5"
