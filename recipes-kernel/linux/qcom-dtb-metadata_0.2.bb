@@ -8,7 +8,7 @@ DEPENDS += "dtc-native"
 
 SRC_URI = "git://github.com/qualcomm-linux/qcom-dtb-metadata.git;branch=main;protocol=https;tag=v${PV}"
 
-SRCREV = "6b9e4b9c093cba36a80035af103015f0a7d3f9fc"
+SRCREV = "7edf88de5af4d595fc1c91ed67b457501cffb609"
 
 INHIBIT_DEFAULT_DEPS = "1"
 
