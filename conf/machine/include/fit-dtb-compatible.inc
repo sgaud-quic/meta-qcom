@@ -63,6 +63,10 @@ FIT_DTB_COMPATIBLE[sa8775p-ride] = " \
                                      qcom,sa8775p-qam \
                                      qcom,sa8775pv2-qam \
 "
+FIT_DTB_COMPATIBLE[sa8775p-ride+sa8775p-ride-camx] = " \
+    qcom,sa8775p-qam-camx \
+    qcom,sa8775pv2-qam-camx \
+"
 FIT_DTB_COMPATIBLE[sa8775p-ride-camx] = "qcom,sa8775p-qam-camx"
 FIT_DTB_COMPATIBLE[sa8775p-ride-r3] = " \
                                         qcom,sa8775p-qamr2 \
