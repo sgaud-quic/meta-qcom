@@ -111,6 +111,8 @@ jobs:
             yamlfile: ':ci/qcom-distro-selinux.yml'
           - name: qcom-distro-sota
             yamlfile: ':ci/qcom-distro-sota.yml'
+          - name: performance
+            yamlfile: ':ci/qcom-distro-prop-image.yml:ci/performance.yml'
         kernel:
           - type: default
             dirname: ""
@@ -163,6 +165,8 @@ jobs:
             yamlfile: ':ci/qcom-distro-selinux.yml'
           - name: qcom-distro-sota
             yamlfile: ':ci/qcom-distro-sota.yml'
+          - name: performance
+            yamlfile: ':ci/qcom-distro-prop-image.yml:ci/performance.yml'
         kernel:
           - type: default
             dirname: ""
@@ -198,28 +202,12 @@ jobs:
                 yamlfile: ":ci/linux-qcom-next-rt.yml"
           - machine: iq-9075-evk
             distro:
-                name: performance
-                yamlfile: ':ci/qcom-distro-prop-image.yml:ci/performance.yml'
-            kernel:
-                type: 6.18
-                dirname: "+linux-qcom-6.18"
-                yamlfile: ":ci/linux-qcom-6.18.yml"
-          - machine: iq-9075-evk
-            distro:
                 name: qcom-distro-kvm
                 yamlfile: ':ci/qcom-distro-kvm.yml'
             kernel:
                 type: default
                 dirname: ""
                 yamlfile: ""
-          - machine: iq-8275-evk
-            distro:
-                name: performance
-                yamlfile: ':ci/qcom-distro-prop-image.yml:ci/performance.yml'
-            kernel:
-                type: 6.18
-                dirname: "+linux-qcom-6.18"
-                yamlfile: ":ci/linux-qcom-6.18.yml"
           - machine: iq-8275-evk
             distro:
                 name: qcom-distro-kvm
