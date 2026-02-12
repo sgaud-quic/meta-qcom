@@ -20,6 +20,14 @@ FIT_DTB_COMPATIBLE[lemans-evk+lemans-evk-camx] = " \
     qcom,qcs9075-iot-camx \
     qcom,qcs9075v2-iot-camx \
 "
+FIT_DTB_COMPATIBLE[lemans-evk+lemans-el2] = " \
+    qcom,qcs9075-iot-el2kvm \
+    qcom,qcs9075v2-iot-el2kvm \
+"
+FIT_DTB_COMPATIBLE[lemans-evk+lemans-evk-camx+lemans-el2] = " \
+    qcom,qcs9075-iot-camx-el2kvm \
+    qcom,qcs9075v2-iot-camx-el2kvm \
+"
 FIT_DTB_COMPATIBLE[monaco-evk] = "qcom,qcs8275-iot"
 FIT_DTB_COMPATIBLE[monaco-evk+monaco-evk-camera-imx577] = "qcom,monaco-evk"
 FIT_DTB_COMPATIBLE[monaco-evk+monaco-evk-camx] = "qcom,qcs8275-iot-camx"
@@ -48,6 +56,10 @@ FIT_DTB_COMPATIBLE[qcs9100-ride+sa8775p-ride-camx] = " \
     qcom,qcs9100-qam-camx \
     qcom,qcs9100v2-qam-camx \
 "
+FIT_DTB_COMPATIBLE[qcs9100-ride+lemans-el2] = " \
+    qcom,qcs9100-qam-el2kvm \
+    qcom,qcs9100v2-qam-el2kvm \
+"
 FIT_DTB_COMPATIBLE[qcs9100-ride-r3] = " \
                                         qcom,qcs9100-qamr2 \
                                         qcom,qcs9100v2-qamr2 \
@@ -55,6 +67,10 @@ FIT_DTB_COMPATIBLE[qcs9100-ride-r3] = " \
 FIT_DTB_COMPATIBLE[qcs9100-ride-r3+sa8775p-ride-camx] = " \
     qcom,qcs9100-qamr2-camx \
     qcom,qcs9100v2-qamr2-camx \
+"
+FIT_DTB_COMPATIBLE[qcs9100-ride-r3+fdt-lemans-el2] = " \
+    qcom,qcs9100-qamr2-el2kvm \
+    qcom,qcs9100v2-qamr2-el2kvm \
 "
 FIT_DTB_COMPATIBLE[qrb2210-rb1] = "qcom,qrb2210-rb1"
 FIT_DTB_COMPATIBLE[qrb4210-rb2] = "qcom,qrb4210-rb2"
