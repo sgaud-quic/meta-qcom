@@ -107,10 +107,8 @@ jobs:
             yamlfile: ""
           - name: qcom-distro
             yamlfile: ':ci/qcom-distro-prop-image.yml'
-          - name: qcom-distro-selinux
-            yamlfile: ':ci/qcom-distro-selinux.yml'
-          - name: qcom-distro-sota
-            yamlfile: ':ci/qcom-distro-sota.yml'
+          - name: qcom-distro-catchall
+            yamlfile: ':ci/qcom-distro-catchall.yml'
           - name: performance
             yamlfile: ':ci/qcom-distro-prop-image.yml:ci/performance.yml'
         kernel:
@@ -164,10 +162,8 @@ jobs:
             yamlfile: ""
           - name: qcom-distro
             yamlfile: ':ci/qcom-distro-prop-image.yml'
-          - name: qcom-distro-selinux
-            yamlfile: ':ci/qcom-distro-selinux.yml'
-          - name: qcom-distro-sota
-            yamlfile: ':ci/qcom-distro-sota.yml'
+          - name: qcom-distro-catchall
+            yamlfile: ':ci/qcom-distro-catchall.yml'
           - name: performance
             yamlfile: ':ci/qcom-distro-prop-image.yml:ci/performance.yml'
         kernel:
