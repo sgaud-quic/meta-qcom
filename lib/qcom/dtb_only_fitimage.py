@@ -115,9 +115,11 @@ class QcomItsNodeRoot(ItsNodeRootKernel):
 
             # Overlay configs
             for ovl_list in (overlay_groups or {}).get(dtb_id, []):
-                fdtentries = [f"fdt-{dtb_id}"] + [f"fdt-{ovl}" for ovl in ovl_list]
+                dt_list = [dtb_id] + ovl_list
 
-                lookup_key = "+".join([os.path.splitext(dtb_id)[0].replace(',', '_')] + [os.path.splitext(ovl)[0] for ovl in ovl_list])
+                fdtentries = [f"fdt-{dt}" for dt in dt_list]
+                lookup_key = "+".join([os.path.splitext(dt)[0].replace(',', '_') for dt in dt_list])
+                bb.note(lookup_key)
 
                 ovl_compats = str(((overlay_compats or {}).get(lookup_key, "")) or "").split()
                 for compat in ovl_compats:
