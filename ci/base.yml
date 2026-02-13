@@ -61,6 +61,8 @@ local_conf_header:
     WATCHDOG_RUNTIME_SEC:pn-systemd = "30"
   uninative: |
     INHERIT:remove = "uninative"
+  sstate: |
+    BB_SIGNATURE_HANDLER = "OEBasicHash"
 
 machine: unset
 
