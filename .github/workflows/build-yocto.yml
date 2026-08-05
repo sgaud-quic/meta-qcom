@@ -223,9 +223,9 @@ jobs:
                 name: nodistro
                 yamlfile: ""
             kernel:
-                type: rt-6.18-distro-kvm
-                dirname: "_linux-qcom-rt-6.18_qcom-distro-kvm"
-                yamlfile: ":ci/linux-qcom-rt-6.18.yml:ci/qcom-distro-kvm.yml"
+                type: rt-6.18
+                dirname: "_linux-qcom-rt-6.18"
+                yamlfile: ":ci/linux-qcom-rt-6.18.yml"
     uses: ./.github/workflows/compile.yml
     with:
       name: ${{ matrix.machine }}/${{ matrix.distro.name }}${{ matrix.kernel.dirname }}
@@ -315,9 +315,14 @@ jobs:
           - type: 6.18
             dirname: "_linux-qcom-6.18"
             yamlfile: ":ci/linux-qcom-6.18.yml"
-          - type: rt-6.18-distro-kvm
-            dirname: "_linux-qcom-rt-6.18_qcom-distro-kvm"
-            yamlfile: ":ci/linux-qcom-rt-6.18.yml:ci/qcom-distro-kvm.yml"
+          # Plain rt kernel provider only: ci/qcom-distro-kvm.yml must not ride
+          # on the kernel axis — it includes ci/qcom-distro.yml, whose distro
+          # and targets override the distro row (nodistro/qcom-distro/catchall
+          # x rt-kvm all built the identical qcom-distro image set). The kvm
+          # coverage lives in the dedicated qcom-distro-kvm jobs below.
+          - type: rt-6.18
+            dirname: "_linux-qcom-rt-6.18"
+            yamlfile: ":ci/linux-qcom-rt-6.18.yml"
         exclude:
           # Exclude jobs from compile_warm_up
           - machine: glymur-crd
@@ -359,7 +364,7 @@ jobs:
             distro:
                 name: nodistro
             kernel:
-                type: rt-6.18-distro-kvm
+                type: rt-6.18
         include:
           # Additional builds for specific machines
           - machine: qcom-armv8a
@@ -402,6 +407,16 @@ jobs:
                 type: default
                 dirname: ""
                 yamlfile: ""
+          # Keep one rt + kvm combination now that the kvm fragment no longer
+          # rides on the rt kernel axis
+          - machine: rb3gen2-core-kit
+            distro:
+                name: qcom-distro-kvm
+                yamlfile: ':ci/qcom-distro-kvm.yml'
+            kernel:
+                type: rt-6.18
+                dirname: "_linux-qcom-rt-6.18"
+                yamlfile: ":ci/linux-qcom-rt-6.18.yml"
           - machine: qcom-armv7a
             distro:
                 name: nodistro
