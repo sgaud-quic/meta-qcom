@@ -13,4 +13,4 @@ jobs:
     steps:
       - name: Clean up the persistant sstate-cache dir
         run: |
-          rm -rf $(find /efs/qli/meta-qcom -name 'sstate-cache-*' -maxdepth 1 -type d -ctime +30)
+          rm -rf $(find /efsx/qli/meta-qcom -name 'sstate-cache-*' -maxdepth 1 -type d -ctime +30)

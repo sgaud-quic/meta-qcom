@@ -26,7 +26,12 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  CACHE_DIR: /efs/qli/meta-qcom
+  # Shared build cache root on the FSx mount, POSIX shared filesystem
+  # semantics like the EFS folder it replaces: DL_DIR (downloads/) and the
+  # monthly SSTATE_DIR folders live under it, both read-write through the
+  # kas-container bind mounts, and the monthly workflow prunes the rotated
+  # sstate folders.
+  CACHE_DIR: /efsx/qli/meta-qcom
   KAS_CLONE_DEPTH: 1
 
 jobs:
