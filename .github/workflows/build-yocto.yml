@@ -202,6 +202,30 @@ jobs:
           - type: default
             dirname: ""
             yamlfile: ""
+        include:
+          # One early build per non-default kernel flavor, so a single job
+          # refreshes the kernel git mirror tarballs (a SRCREV bump makes the
+          # first fetcher regenerate them while holding the per-repository
+          # DL_DIR lock) and lands the first kernel sstate in the shared
+          # cache before the matrix fans out. The same combinations are
+          # excluded from the compile matrix below, like the other warm_up
+          # builds.
+          - machine: qcom-armv8a
+            distro:
+                name: nodistro
+                yamlfile: ""
+            kernel:
+                type: 6.18
+                dirname: "_linux-qcom-6.18"
+                yamlfile: ":ci/linux-qcom-6.18.yml"
+          - machine: qcom-armv8a
+            distro:
+                name: nodistro
+                yamlfile: ""
+            kernel:
+                type: rt-6.18-distro-kvm
+                dirname: "_linux-qcom-rt-6.18_qcom-distro-kvm"
+                yamlfile: ":ci/linux-qcom-rt-6.18.yml:ci/qcom-distro-kvm.yml"
     uses: ./.github/workflows/compile.yml
     with:
       name: ${{ matrix.machine }}/${{ matrix.distro.name }}${{ matrix.kernel.dirname }}
@@ -326,6 +350,16 @@ jobs:
                 name: qcom-distro
             kernel:
                 type: default
+          - machine: qcom-armv8a
+            distro:
+                name: nodistro
+            kernel:
+                type: 6.18
+          - machine: qcom-armv8a
+            distro:
+                name: nodistro
+            kernel:
+                type: rt-6.18-distro-kvm
         include:
           # Additional builds for specific machines
           - machine: qcom-armv8a
