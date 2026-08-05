@@ -51,3 +51,24 @@ local_conf_header:
     # from automatically.
     GITDIR = "${TMPDIR}/git2"
     BB_GENERATE_MIRROR_TARBALLS = "1"
+  git-shallow-kernels: |
+    # All qcom kernel flavors fetch the same multi-gigabyte kernel
+    # repository, and with the clone dirs job-local every job must
+    # materialize it while holding the shared per-repository DL_DIR lock
+    # (bitbake holds it across the whole download and the whole unpack),
+    # serializing the matrix behind multi-gigabyte transfers whenever
+    # kernel sstate is missing. The recipes pin SRCREV, take their version
+    # from LINUX_VERSION and kernel.bbclass pins LOCALVERSION, so nothing
+    # reads the git history: fetch these kernels shallow. do_fetch is then
+    # served straight from the depth-1 gitshallow_*.tar.gz in DL_DIR when
+    # present (no clone dir restore at all), shrinking the lock-held
+    # payload from gigabytes to a few hundred megabytes. Generation needs
+    # no extra switch (BB_GENERATE_SHALLOW_TARBALLS defaults to
+    # BB_GENERATE_MIRROR_TARBALLS above), and the tarball name embeds the
+    # revision, so a SRCREV bump regenerates a fresh tarball via whichever
+    # job fetches first. linux-yocto is deliberately not shallow: its
+    # kern-tools machinery relies on the kernel metadata branches.
+    BB_GIT_SHALLOW:pn-linux-qcom = "1"
+    BB_GIT_SHALLOW:pn-linux-qcom-rt = "1"
+    BB_GIT_SHALLOW:pn-linux-qcom-next = "1"
+    BB_GIT_SHALLOW:pn-linux-qcom-next-rt = "1"
