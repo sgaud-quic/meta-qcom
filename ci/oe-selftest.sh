@@ -79,4 +79,15 @@ if [ -n "$DL_DIR" ]; then
     echo "DL_DIR = \"$DL_DIR\"" >> conf/local.conf
 fi
 
+# Keep the mutable git clone dirs job-local and share git history through the
+# atomically renamed git2_*.tar.gz mirror tarballs in DL_DIR instead, matching
+# what ci/ci.yml (git-dl) does for the image builds: clone dirs are mutated in
+# place on every update, which is unsafe on a shared network DL_DIR. Opt-in
+# via environment so local developer runs keep using DL_DIR/git2 as their
+# persistent clone cache.
+if [ -n "$GIT_CLONEDIR_JOB_LOCAL" ]; then
+    echo "GITDIR = \"$WORK_DIR/git2\"" >> conf/local.conf
+    echo "BB_GENERATE_MIRROR_TARBALLS = \"1\"" >> conf/local.conf
+fi
+
 oe-selftest --run-tests "$TEST_CASES"

@@ -148,8 +148,15 @@ jobs:
 
       - name: Setup cache variables (used by oe-selftest)
         run: |
+          # Git clone dirs are kept job-local like the compile jobs do via
+          # ci/ci.yml (git-dl): GIT_CLONEDIR_JOB_LOCAL makes ci/oe-selftest.sh
+          # point GITDIR at the kas workspace and generate the git2_*.tar.gz
+          # mirror tarballs, so the shared DL_DIR only ever carries whole-file
+          # atomic artifacts. The flag rides on KAS_OPTS --runtime-args since
+          # kas-container only forwards a fixed set of environment variables.
           echo "DL_DIR=${CACHE_DIR}/downloads" >> $GITHUB_ENV
           echo "SSTATE_DIR=${CACHE_DIR}/sstate-cache-$(date '+%Y-%m')" >> $GITHUB_ENV
+          echo "KAS_OPTS=--runtime-args --env=GIT_CLONEDIR_JOB_LOCAL=1" >> $GITHUB_ENV
 
       - name: Run Yocto patchreview
         run: |
