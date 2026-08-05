@@ -226,6 +226,28 @@ jobs:
                 type: rt-6.18
                 dirname: "_linux-qcom-rt-6.18"
                 yamlfile: ":ci/linux-qcom-rt-6.18.yml"
+          # qcom-distro-catchall is its own sstate population (different
+          # DISTRO name and feature set), so seed its world here — the world
+          # expression below enables it automatically for catchall + default.
+          - machine: qcom-armv8a
+            distro:
+                name: qcom-distro-catchall
+                yamlfile: ':ci/qcom-distro-catchall.yml'
+            kernel:
+                type: default
+                dirname: ""
+                yamlfile: ""
+          # sm8750-mtp uses its own tune (armv8-7a DEFAULTTUNE), a separate
+          # sstate population no other machine seeds, so give it a warm_up
+          # build of its own.
+          - machine: sm8750-mtp
+            distro:
+                name: qcom-distro
+                yamlfile: ':ci/qcom-distro.yml'
+            kernel:
+                type: default
+                dirname: ""
+                yamlfile: ""
     uses: ./.github/workflows/compile.yml
     with:
       name: ${{ matrix.machine }}/${{ matrix.distro.name }}${{ matrix.kernel.dirname }}
@@ -281,6 +303,10 @@ jobs:
       max-parallel: 40
       matrix:
         machine:
+          # Machines with a unique DEFAULTTUNE (their own sstate population)
+          # come first, so their universes are seeded by the earliest waves
+          # instead of forming a cold tail at the end of the matrix.
+          - sm8750-mtp
           - glymur-crd
           - iq-615-evk
           - iq-8275-evk
@@ -296,7 +322,6 @@ jobs:
           - rb1-core-kit
           - rb3gen2-core-kit
           - shikra-evk
-          - sm8750-mtp
         distro:
           - name: nodistro
             yamlfile: ""
@@ -365,6 +390,16 @@ jobs:
                 name: nodistro
             kernel:
                 type: rt-6.18
+          - machine: qcom-armv8a
+            distro:
+                name: qcom-distro-catchall
+            kernel:
+                type: default
+          - machine: sm8750-mtp
+            distro:
+                name: qcom-distro
+            kernel:
+                type: default
         include:
           # Additional builds for specific machines
           - machine: qcom-armv8a
