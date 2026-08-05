@@ -181,8 +181,32 @@ jobs:
         run: |
           echo "CACHE_DIR=${{env.CACHE_DIR}}" >> $GITHUB_OUTPUT
 
-  compile_warm_up:
+  # First warm_up tier: a single job that builds the common core (native
+  # tools, toolchain, the generic target world) exactly once. The second
+  # tier's seed jobs all reuse this sstate instead of each cold-building the
+  # core in parallel, which both shortens the warm_up barrier and removes
+  # most of its redundant compute on a cold cache.
+  compile_warm_up_core:
     needs: [kas-setup, github-cache-check, compile-env]
+    if: |
+      github.repository_owner == 'qualcomm-linux-stg' &&
+      (inputs.skip_if_github_cached != true || needs.github-cache-check.outputs.cache_hit != 'true')
+    uses: ./.github/workflows/compile.yml
+    with:
+      name: qcom-armv8a/nodistro
+      world: true
+      machine: 'qcom-armv8a'
+      distro_yaml: ''
+      distro_name: 'nodistro'
+      kernel_yaml: ''
+      kernel_dirname: ''
+      cache_dir: ${{ needs.compile-env.outputs.CACHE_DIR }}
+
+  # Second warm_up tier: one seed build per sstate population the matrix
+  # depends on (distro families, kernel flavors, unique-tune machines), each
+  # reusing the core tier's sstate.
+  compile_warm_up:
+    needs: [github-cache-check, compile_warm_up_core, compile-env]
     if: |
       github.repository_owner == 'qualcomm-linux-stg' &&
       (inputs.skip_if_github_cached != true || needs.github-cache-check.outputs.cache_hit != 'true')
@@ -191,7 +215,6 @@ jobs:
       matrix:
         machine:
           - glymur-crd
-          - qcom-armv8a
           - rb3gen2-core-kit
         distro:
           - name: nodistro
@@ -203,6 +226,16 @@ jobs:
             dirname: ""
             yamlfile: ""
         include:
+          # qcom-armv8a nodistro (world) moved to compile_warm_up_core; its
+          # qcom-distro build stays here as a plain include.
+          - machine: qcom-armv8a
+            distro:
+                name: qcom-distro
+                yamlfile: ':ci/qcom-distro.yml'
+            kernel:
+                type: default
+                dirname: ""
+                yamlfile: ""
           # One early build per non-default kernel flavor, so a single job
           # refreshes the kernel git mirror tarballs (a SRCREV bump makes the
           # first fetcher regenerate them while holding the per-repository
