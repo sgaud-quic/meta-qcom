@@ -245,6 +245,16 @@ jobs:
       (inputs.skip_if_github_cached != true || needs.github-cache-check.outputs.cache_hit != 'true')
     strategy:
       fail-fast: false
+      # Bound how many matrix jobs hit the shared caches at once. On a cold
+      # run (routine after a base.lock bump invalidates most of the sstate
+      # cache) an uncapped matrix rebuilds everything ~90 times in parallel:
+      # sstate availability is computed at job start, so concurrent jobs
+      # cannot reuse each other's output, and they serialize on the
+      # per-repository fetch locks in the shared DL_DIR. With waves, earlier
+      # jobs land their sstate in the shared cache and later waves reuse it
+      # instead of rebuilding it. Warm runs are barely affected; tune as
+      # staging data comes in.
+      max-parallel: 40
       matrix:
         machine:
           - glymur-crd
