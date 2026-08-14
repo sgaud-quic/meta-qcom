@@ -24,3 +24,5 @@ overrides:
             commit: 6a59b0cd21084e33feb53b4f2d1310e49e1d4a83
         meta-ai:
             commit: 3511d6c9669683fc232211eb72e1549d6db6e660
+        meta-qcom-distro:
+            commit: fc472762d0f70662e81e69e63981b544536e2663
