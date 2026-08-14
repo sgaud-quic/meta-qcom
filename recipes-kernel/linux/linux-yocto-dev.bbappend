@@ -12,7 +12,21 @@ SRC_URI:append:qcom = " \
 # Include additional kernel configs.
 SRC_URI:append:qcom = " \
     file://configs/qcom.cfg \
+    file://configs/localversion.cfg \
 "
+
+# Make the kernel release deterministic: the defconfig leaves
+# CONFIG_LOCALVERSION_AUTO enabled, so setlocalversion derives the release
+# from the git tree state at build time — unstable in a parallel build
+# (transient -dirty from concurrent tasks in the shared source tree) and,
+# with the qcom patches applied as git commits, dependent on per-build
+# commit timestamps. Derive the -g<sha> suffix from the revision the
+# fetcher resolved instead (localversion.cfg above disables the AUTO scm
+# inspection), and drop the -yoctodev-standard extension so uname -r keeps
+# its current <version>-g<sha> form.
+require linux-qcom-localversion.inc
+KERNEL_LOCALVERSION:qcom = "${@qcom_kernel_localversion(d)}"
+LINUX_VERSION_EXTENSION:qcom = ""
 
 # When a defconfig is provided, the linux-yocto configuration
 # uses the filename as a trigger to use a 'allnoconfig' baseline
