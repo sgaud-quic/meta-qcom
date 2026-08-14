@@ -26,6 +26,9 @@ SRCREV ?= "3167b12384380f1463ccf3b42f83adcac5a3f754"
 SRCBRANCH ?= "nobranch=1"
 SRCBRANCH:class-devupstream ?= "branch=qcom-6.18.y"
 
+require linux-qcom-localversion.inc
+KERNEL_LOCALVERSION = "${@qcom_kernel_localversion(d)}"
+
 SRC_URI = " \
     git://github.com/qualcomm-linux/kernel.git;${SRCBRANCH};protocol=https \
     file://0001-tools-use-basename-to-identify-file-in-gen-mach-type.patch \
@@ -34,6 +37,7 @@ SRC_URI = " \
 # Additional kernel configs.
 SRC_URI += " \
     file://configs/bsp-additions.cfg \
+    file://configs/localversion.cfg \
 "
 
 # To build tip of qcom-6.18.y branch set preferred

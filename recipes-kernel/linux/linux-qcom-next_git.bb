@@ -24,11 +24,15 @@ SRCREV ?= "8d5dbc1b17adf8fe86a41adcda686785e73f5414"
 SRCBRANCH ?= "nobranch=1"
 SRCBRANCH:class-devupstream ?= "branch=qcom-next"
 
+require linux-qcom-localversion.inc
+KERNEL_LOCALVERSION = "${@qcom_kernel_localversion(d)}"
+
 SRC_URI = "git://github.com/qualcomm-linux/kernel.git;${SRCBRANCH};protocol=https"
 
 # Additional kernel configs.
 SRC_URI += " \
     file://configs/bsp-additions.cfg \
+    file://configs/localversion.cfg \
 "
 
 # To build tip of qcom-next branch set preferred
