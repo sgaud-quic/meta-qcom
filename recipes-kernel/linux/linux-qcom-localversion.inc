@@ -17,6 +17,12 @@
 # resolved for this build: still a deterministic function of the task
 # signatures, unlike the git working tree state.
 #
+# When the recipe applies patches on top of that revision, a -p<count>
+# suffix records it (the same idea as meta-freescale's +p<count>): the
+# release then says "this base, plus N known patches" instead of relying
+# on setlocalversion's -dirty, which only ever reflected which patch tool
+# was used and when the tree state was sampled.
+#
 # Consumers set:
 #   KERNEL_LOCALVERSION = "${@qcom_kernel_localversion(d)}"
 # and add file://configs/localversion.cfg to SRC_URI.
@@ -36,4 +42,12 @@ def qcom_kernel_localversion(d):
     rev = (rev or '').lower()
     if len(rev) < 12 or any(c not in '0123456789abcdef' for c in rev):
         return ''
-    return '-g' + rev[:12]
+    ver = '-g' + rev[:12]
+    try:
+        import oe.patch
+        patches = len(oe.patch.src_patches(d))
+    except (bb.fetch2.BBFetchException, ImportError):
+        patches = 0
+    if patches:
+        ver += '-p%d' % patches
+    return ver
