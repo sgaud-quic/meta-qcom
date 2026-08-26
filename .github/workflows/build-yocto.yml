@@ -201,6 +201,7 @@ jobs:
       kernel_yaml: ${{matrix.kernel.yamlfile}}
       kernel_dirname: ${{matrix.kernel.dirname}}
       cache_dir: ${{ needs.compile-env.outputs.CACHE_DIR }}
+      profile: ${{ inputs.profile }}
 
   compile_sdk:
     needs: [github-cache-check, compile_warm_up, compile-env]
@@ -219,6 +220,7 @@ jobs:
       kernel_yaml: ''
       kernel_dirname: ''
       cache_dir: ${{ needs.compile-env.outputs.CACHE_DIR }}
+      profile: ${{ inputs.profile }}
 
   compile:
     needs: [github-cache-check, compile_warm_up, compile-env]
@@ -486,6 +488,7 @@ jobs:
       kernel_yaml: ${{matrix.kernel.yamlfile}}
       kernel_dirname: ${{matrix.kernel.dirname}}
       cache_dir: ${{ needs.compile-env.outputs.CACHE_DIR }}
+      profile: ${{ inputs.profile }}
 
   publish_summary:
     needs: [github-cache-check, compile, compile_sdk]
