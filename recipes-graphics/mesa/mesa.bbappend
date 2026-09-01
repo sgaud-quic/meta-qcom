@@ -2,6 +2,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
 
 SRC_URI:append:qcom = " \ 
     file://0001-freedreno-Add-chip-id-support-for-A830v1.patch \
+    file://0001-freedreno-Add-chip-support-for-a722.patch \
 "
 
 # Enable freedreno driver
