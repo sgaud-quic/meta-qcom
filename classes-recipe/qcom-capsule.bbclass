@@ -203,6 +203,9 @@ python generate_fvupdate() {
 }
 
 do_compile[prefuncs] += "generate_fvupdate"
+# Add the CAPSULE_ENTRY_* data as a dependency to generate_fvupdate().
+# This makes sure we rebuild when changes are made to the entries.
+generate_fvupdate[vardeps] += "${@' '.join('CAPSULE_ENTRY_' + e for e in d.getVar('CAPSULE_ENTRIES').split())}"
 
 # Inject the OEM root certificate into xbl_config.elf.
 # Dumps the config sections, auto-detects the post-DDR DTB (or uses
