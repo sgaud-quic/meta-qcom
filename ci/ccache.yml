@@ -18,6 +18,7 @@ local_conf_header:
     # table with enabled recipes
     CCACHE_DISABLE:pn-clang = "0"
     CCACHE_DISABLE:pn-clang-native = "0"
+    CCACHE_DISABLE:pn-chromium-ozone-wayland = "0"
     CCACHE_DISABLE:pn-gcc = "0"
     CCACHE_DISABLE:pn-gcc-cross-aarch64 = "0"
     CCACHE_DISABLE:pn-gcc-cross-arm = "0"
@@ -27,5 +28,6 @@ local_conf_header:
     CCACHE_DISABLE:pn-linux-qcom = "0"
     CCACHE_DISABLE:pn-linux-qcom-next = "0"
     CCACHE_DISABLE:pn-linux-yocto = "0"
+    CCACHE_DISABLE:pn-opencv = "0"
     CCACHE_DISABLE:pn-rust = "0"
     CCACHE_DISABLE:pn-rust-native = "0"
