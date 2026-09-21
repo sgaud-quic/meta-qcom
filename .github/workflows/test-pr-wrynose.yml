@@ -50,7 +50,8 @@ jobs:
       checks: write
       pull-requests: write
     uses: qualcomm-linux/meta-qcom/.github/workflows/test.yml@wrynose
-    secrets: inherit
+    secrets:
+      LAVATOKEN: ${{ secrets.LAVATOKEN }}
     with:
       build_id: ${{ github.event.workflow_run.id }}
 
@@ -115,7 +116,8 @@ jobs:
       checks: write
       pull-requests: write
     uses: $/.github/workflows/publish-results.yml
-    secrets: inherit
+    secrets:
+      TEST_REPORTING_APP_TOKEN: ${{ secrets.TEST_REPORTING_APP_TOKEN }}
     needs: [test-wrynose]
     if: always() && (needs.test-wrynose.result == 'success')
     with:
