@@ -7,6 +7,9 @@ on:
     branches: [ master ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   repolinter:
     if: github.repository_owner == 'qualcomm-linux'
