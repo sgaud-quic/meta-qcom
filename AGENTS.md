@@ -112,14 +112,15 @@ Use the helper scripts for CI parity whenever possible.
 
 ## 6) Pull request / contribution workflow
 
-Follow the contribution workflow documented in
-[CONTRIBUTING.md](CONTRIBUTING.md):
+Changes reach `qualcomm-linux/meta-qcom` as GitHub pull requests against
+**master**, from a topic branch in a fork that is rebased on the latest
+upstream `master`; review iterates in the pull request discussion. Commit
+requirements are in [CONTRIBUTING.md](CONTRIBUTING.md) (see section 7).
 
-1. Target branch: **master**.
-2. Fork `qualcomm-linux/meta-qcom`, create a topic branch, implement changes.
-3. Rebase on latest upstream `master`.
-4. Open a GitHub pull request.
-5. Use PR discussion for review iteration.
+Open a pull request, backports included, only when the user asks for one.
+Every pull request lands in the maintainers' review queue, so one the user
+did not ask for, or does not know about, is review load nobody wanted.
+Otherwise, stop once the change is committed and tell the user it is ready.
 
 Before opening/updating a PR, run CI-equivalent checks in this order:
 
@@ -180,8 +181,8 @@ branch), follow the same conventions the automation uses:
    appends the `(cherry picked from commit <sha>)` line for you. Keep the
    original subject, body, and trailers unchanged, and add your own
    `Signed-off-by` after the cherry-pick line if it is not already present.
-3. Open the pull request against the release branch with the subject
-   prefixed by the target branch, for example
+3. When the user asks for the pull request, open it against the release
+   branch with the subject prefixed by the target branch, for example
    `[Backport wrynose] recipe-name: summary of the changes`, and link the
    original pull request in the description.
 
