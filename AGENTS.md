@@ -31,29 +31,20 @@ skill over re-deriving the workflow; improvements go back to that catalog.
 2. Container runtime access (Docker/Podman backend used by `kas-container`).
 3. Work directories outside the repository for build outputs and shared caches.
 
-### Container runtime smoke test (required order)
+### Container runtime smoke test
 
-Run Docker first:
-
-```sh
-docker run --rm hello-world
-```
-
-Then check Podman:
+`kas-container` uses Docker when it is installed and falls back to Podman
+otherwise (set `KAS_CONTAINER_ENGINE` to override), so check the engine it
+will pick:
 
 ```sh
-if command -v podman >/dev/null 2>&1; then
-  podman run --rm hello-world
-else
-  echo "podman not installed; continue with Docker backend"
-fi
+docker run --rm hello-world    # or, on a Podman-only host: podman run --rm hello-world
 ```
 
 Notes:
 
 - Do not use `sudo` unless the host setup explicitly requires it.
 - Do not create or modify user groups as part of this workflow.
-- If Podman is unavailable, Docker-only operation is acceptable.
 
 ## 2) Recommended environment
 
@@ -71,7 +62,7 @@ mkdir -p "${DL_DIR}" "${SSTATE_DIR}" "${KAS_WORK_DIR}"
 ## 3) Build with kas-container (CI style)
 
 CI build composition pattern:
-`:ci/<machine>.yml[:distro.yml][:kernel.yml]`
+`ci/<machine>.yml[:ci/<distro>.yml][:ci/<kernel>.yml]`
 
 Example:
 
@@ -108,12 +99,6 @@ Run a subset:
   --command "/repo/ci/oe-selftest.sh /repo /work qcom_fitimage.QcomFitImageMatrixTests"
 ```
 
-If passing explicit tests directly (without helper), call:
-
-```sh
-ci/oe-selftest.sh "$REPO_DIR" "$KAS_WORK_DIR" qcom_fitimage.QcomFitImageMatrixTests
-```
-
 ## 5) Direct kas shell alternative (no helper wrapper)
 
 For one-off commands:
@@ -127,14 +112,15 @@ Use the helper scripts for CI parity whenever possible.
 
 ## 6) Pull request / contribution workflow
 
-Follow the contribution workflow documented in
-[CONTRIBUTING.md](CONTRIBUTING.md):
+Changes reach `qualcomm-linux/meta-qcom` as GitHub pull requests against
+**master**, from a topic branch in a fork that is rebased on the latest
+upstream `master`; review iterates in the pull request discussion. Commit
+requirements are in [CONTRIBUTING.md](CONTRIBUTING.md) (see section 7).
 
-1. Target branch: **master**.
-2. Fork `qualcomm-linux/meta-qcom`, create a topic branch, implement changes.
-3. Rebase on latest upstream `master`.
-4. Open a GitHub pull request.
-5. Use PR discussion for review iteration.
+Open a pull request, backports included, only when the user asks for one.
+Every pull request lands in the maintainers' review queue, so one the user
+did not ask for, or does not know about, is review load nobody wanted.
+Otherwise, stop once the change is committed and tell the user it is ready.
 
 Before opening/updating a PR, run CI-equivalent checks in this order:
 
@@ -163,12 +149,17 @@ Never fabricate a name or email; always read them from `git config`.
 
 Trailer order matters: `Assisted-by` goes **before** `Signed-off-by`, so the
 sign-off is always the last trailer written by the author. A complete
-agent-assisted commit message looks like this:
+agent-assisted commit message, at a typical length, looks like this:
 
 ```text
-recipe-name: summary of the changes
+ci/performance: enable root-only udev trigger
 
-Explain the problem first, then the change, in plain English.
+The initramfs udev framework now supports root-only triggering for all
+supported initramfs images and falls back to a full trigger when the
+root device cannot be resolved.
+
+Enable the optimization unconditionally in the performance command line
+instead of limiting it to initramfs-rootfs-image.
 
 Assisted-by: AGENT_NAME:MODEL_VERSION
 Signed-off-by: Author Name <author@example.com>
@@ -180,6 +171,19 @@ write both trailers in the order above in a single commit message instead.
 
 Fixups within the same patch series are not allowed; changes should be
 corrected in the patch where they are introduced.
+
+### Writing for reviewers
+
+Commit messages, code comments and pull request descriptions are read by
+maintainers reviewing many changes, so keep them short enough to take in
+at a glance. A commit body is usually one or two short paragraphs: the
+problem, the change, and any fact the reviewer cannot get from the diff.
+Leave out what the diff already shows, the alternatives you considered,
+and what the change does not affect, unless a reviewer would otherwise
+ask. Get there by saying less, not by compressing it into fragments.
+
+Comment code the way the surrounding file does, and only where the reason
+is not obvious; how the code changed belongs in the commit message.
 
 ## 8) Backporting to a release branch
 
@@ -195,8 +199,8 @@ branch), follow the same conventions the automation uses:
    appends the `(cherry picked from commit <sha>)` line for you. Keep the
    original subject, body, and trailers unchanged, and add your own
    `Signed-off-by` after the cherry-pick line if it is not already present.
-3. Open the pull request against the release branch with the subject
-   prefixed by the target branch, for example
+3. When the user asks for the pull request, open it against the release
+   branch with the subject prefixed by the target branch, for example
    `[Backport wrynose] recipe-name: summary of the changes`, and link the
    original pull request in the description.
 
