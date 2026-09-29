@@ -34,10 +34,6 @@ repos:
 
   meta-audioreach:
     url: https://github.com/AudioReach/meta-audioreach
-    patches:
-      layer-compat-blacksail:
-        repo: meta-qcom
-        path: patches/audioreach/0001-layer.conf-add-blacksail-to-LAYERSERIES_COMPAT.patch
 
   meta-selinux:
     url: https://git.yoctoproject.org/meta-selinux
