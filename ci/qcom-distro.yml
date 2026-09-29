@@ -34,6 +34,10 @@ repos:
 
   meta-audioreach:
     url: https://github.com/AudioReach/meta-audioreach
+    patches:
+      layer-compat-blacksail:
+        repo: meta-qcom
+        path: patches/audioreach/0001-layer.conf-add-blacksail-to-LAYERSERIES_COMPAT.patch
 
   meta-selinux:
     url: https://git.yoctoproject.org/meta-selinux
@@ -47,12 +51,19 @@ repos:
       libselinux-python-swig-4.5:
         repo: meta-qcom
         path: patches/selinux/0003-libselinux-python-fix-the-build-against-swig-4.5.0.patch
+      layer-compat-blacksail:
+        repo: meta-qcom
+        path: patches/selinux/0004-layer.conf-update-to-blacksail-release-series.patch
 
   meta-updater:
     url: https://github.com/uptane/meta-updater
 
   meta-security:
     url: https://git.yoctoproject.org/meta-security
+    patches:
+      layer-compat-blacksail:
+        repo: meta-qcom
+        path: patches/security/0001-layer-Add-blacksail-YP-6.1-to-compatible-releases.patch
     layers:
       .:
       meta-tpm:

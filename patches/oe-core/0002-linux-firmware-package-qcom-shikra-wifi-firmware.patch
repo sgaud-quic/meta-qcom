@@ -1,7 +1,7 @@
-From 91b9ad3e19e89e488f1eb5229af94be59ebbf01c Mon Sep 17 00:00:00 2001
+From 6d6d8d17c73b439bbadd32eee086942d53fa6f64 Mon Sep 17 00:00:00 2001
 From: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
 Date: Mon, 28 Sep 2026 14:54:15 +0530
-Subject: [PATCH] linux-firmware: package qcom-shikra-wifi firmware
+Subject: [PATCH 1/2] linux-firmware: package qcom-shikra-wifi firmware
 
 Split the Shikra-specific ath10k WCN3990 hw1.0 WiFi firmware out
 of the generic linux-firmware-ath10k-wcn3990 package into its own
@@ -11,14 +11,14 @@ per-board split already done for QCM2290/QRB4210.
 Signed-off-by: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
 Upstream-Status: Submitted [https://patchwork.yoctoproject.org/project/oe-core/patch/20260928085924.3023725-1-viswanath.kraleti@oss.qualcomm.com/]
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_20260910.bb | 4 ++++
+ meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20260910.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20260910.bb
-index 81b920b7e4..1d39dcb7f9 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20260910.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20260910.bb
-@@ -587,6 +587,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb
+index 44901c229..2166f93ca 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb
+@@ -584,6 +584,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
               ${PN}-atheros-license ${PN}-ar5523 ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k ${PN}-ath3k \
               ${PN}-carl9170 \
               ${PN}-qcom-qcm2290-wifi ${PN}-qcom-qrb4210-wifi ${PN}-qcom-sdm845-modem \
@@ -26,7 +26,7 @@ index 81b920b7e4..1d39dcb7f9 100644
               ${PN}-ar3k-license ${PN}-ar3k \
               ${PN}-ath10k-license ${PN}-ath10k \
               ${PN}-ath10k-qca4019 \
-@@ -2467,6 +2468,7 @@ LICENSE:${PN}-qcom-shikra-compute = "LicenseRef-Firmware-qcom-2"
+@@ -2474,6 +2475,7 @@ LICENSE:${PN}-qcom-shikra-compute = "LicenseRef-Firmware-qcom-2"
  LICENSE:${PN}-qcom-shikra-audio = "LicenseRef-Firmware-qcom-2"
  LICENSE:${PN}-qcom-shikra-modem = "LicenseRef-Firmware-qcom-2"
  LICENSE:${PN}-qcom-shikra-qupv3fw = "LicenseRef-Firmware-qcom"
@@ -34,7 +34,7 @@ index 81b920b7e4..1d39dcb7f9 100644
  LICENSE:${PN}-qcom-sm8150-adreno = "LicenseRef-Firmware-qcom"
  LICENSE:${PN}-qcom-sm8250-adreno = "LicenseRef-Firmware-qcom"
  LICENSE:${PN}-qcom-sm8250-audio = "LicenseRef-Firmware-qcom"
-@@ -2644,6 +2646,7 @@ FILES:${PN}-qcom-shikra-compute = "${firmwaredir}/qcom/shikra/cdsp*.*"
+@@ -2654,6 +2656,7 @@ FILES:${PN}-qcom-shikra-compute = "${firmwaredir}/qcom/shikra/cdsp*.*"
  FILES:${PN}-qcom-shikra-audio = "${nonarch_base_libdir}/firmware/qcom/shikra/lpaicp*.*"
  FILES:${PN}-qcom-shikra-modem = "${nonarch_base_libdir}/firmware/qcom/shikra/cqs/qdsp6sw.mbn*"
  FILES:${PN}-qcom-shikra-qupv3fw = "${firmwaredir}/qcom/shikra/qupv3fw.elf*"
@@ -42,7 +42,7 @@ index 81b920b7e4..1d39dcb7f9 100644
  FILES:${PN}-qcom-sm8150-adreno = "${firmwaredir}/qcom/sm8150/a640*.*"
  FILES:${PN}-qcom-sm8250-adreno = "${firmwaredir}/qcom/sm8250/a650*.*"
  FILES:${PN}-qcom-sm8250-audio = "${firmwaredir}/qcom/sm8250/adsp*.*"
-@@ -2822,6 +2825,7 @@ RDEPENDS:${PN}-qcom-shikra-compute = "${PN}-qcom-2-license"
+@@ -2835,6 +2838,7 @@ RDEPENDS:${PN}-qcom-shikra-compute = "${PN}-qcom-2-license"
  RDEPENDS:${PN}-qcom-shikra-audio = "${PN}-qcom-2-license"
  RDEPENDS:${PN}-qcom-shikra-modem = "${PN}-qcom-2-license"
  RDEPENDS:${PN}-qcom-shikra-qupv3fw = "${PN}-qcom-license"
@@ -50,3 +50,6 @@ index 81b920b7e4..1d39dcb7f9 100644
  RDEPENDS:${PN}-qcom-sm8150-adreno = "${PN}-qcom-license"
  RDEPENDS:${PN}-qcom-sm8250-adreno = "${PN}-qcom-license"
  RDEPENDS:${PN}-qcom-sm8250-audio = "${PN}-qcom-license"
+-- 
+2.43.0
+

@@ -1,7 +1,7 @@
-From 5a53bf1c7c6079bdd645776bdc0f08b18179bce1 Mon Sep 17 00:00:00 2001
+From 2afd3a7d8d4f631e5c1fe9979d47c61057c69b85 Mon Sep 17 00:00:00 2001
 From: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
 Date: Thu, 24 Sep 2026 08:02:09 +0530
-Subject: [PATCH] linux-firmware: backport patch to symlink shikra wifi
+Subject: [PATCH 2/2] linux-firmware: backport patch to symlink shikra wifi
  firmware
 
 On Shikra platform the WiFi firmware is loaded by the tqftpserv
@@ -16,13 +16,13 @@ Signed-off-by: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
 Upstream-Status: Backport [https://gitlab.com/kernel-firmware/linux-firmware/-/commit/837ae0e5beccc2f1e974afba56c22c3cf981fc4e]
 ---
  ...-WiFi-firmware-from-the-ath10k-subdi.patch | 28 +++++++++++++++++++
- .../linux-firmware/linux-firmware_20260910.bb |  3 +-
+ .../linux-firmware/linux-firmware_20260916.bb |  3 +-
  2 files changed, 30 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-shikra-link-WiFi-firmware-from-the-ath10k-subdi.patch
 
 diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-shikra-link-WiFi-firmware-from-the-ath10k-subdi.patch b/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-shikra-link-WiFi-firmware-from-the-ath10k-subdi.patch
 new file mode 100644
-index 0000000000..010121da6b
+index 000000000..010121da6
 --- /dev/null
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-shikra-link-WiFi-firmware-from-the-ath10k-subdi.patch
 @@ -0,0 +1,28 @@
@@ -54,24 +54,27 @@ index 0000000000..010121da6b
 + Version: WLAN.HL.3.3.7.c5-00093.2-QCAHLSWMTPL-1
 + File: ath10k/WCN3990/hw1.0/shikra/notice.txt_wlanmdsp
 + 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20260910.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20260910.bb
-index 1d39dcb7f9..c828eea151 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20260910.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20260910.bb
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb
+index 2166f93ca..d549c3d2d 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb
 @@ -277,7 +277,7 @@ LIC_FILES_CHKSUM = "file://LICENSES/LICENCE.Abilis;md5=b5ee3f410780e56711ad48ead
                      "
  # WHENCE checksum is defined separately to ease overriding it if
  # class-devupstream is selected.
--WHENCE_CHKSUM  = "47dbfc1b4d2d5a13c2e990ae38c3ac2b"
-+WHENCE_CHKSUM  = "0468f24519fa953ad96a5c89e9f22812"
+-WHENCE_CHKSUM  = "286b10e604dec1e5d49c4ac688f65a2e"
++WHENCE_CHKSUM  = "376a71c7f18efcb6e6688a73c2a548c7"
  
  # These are not common licenses, set NO_GENERIC_LICENSE for them
  # so that the license files will be copied from fetched source
-@@ -412,6 +412,7 @@ PATCHTOOL:qcom = "git"
+@@ -409,6 +409,7 @@ PE = "1"
+ 
  SRC_URI = "\
    ${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz \
-   file://0001-ath10k-WCN3990-hw1.0-add-shikra-firmware-files.patch \
 +  file://0001-qcom-shikra-link-WiFi-firmware-from-the-ath10k-subdi.patch \
  "
  
  BBCLASSEXTEND = "devupstream:target"
+-- 
+2.43.0
+
