@@ -35,10 +35,6 @@ repos:
 
   bitbake:
     url: https://github.com/openembedded/bitbake
-    patches:
-      wget-remove-bad-tmp:
-        repo: meta-qcom
-        path: patches/bitbake/0001-fetch-wget-rename-the-partial-download-on-checksum-m.patch
     layers:
       .: disabled
 
