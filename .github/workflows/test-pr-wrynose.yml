@@ -12,6 +12,18 @@ on:
     types:
       - completed
 
+# Cancel an in-flight test run for a PR when a newer commit (re)triggers the
+# build. This stops an orphaned commit's run from continuing to publish the
+# "Test Results" check and PR comment after the PR head has moved on, so the
+# only surviving results belong to the current head. Re-running failed jobs on
+# an existing run keeps the same run id and is therefore not cancelled.
+# Concurrency groups are shared by every workflow of the repository, so the
+# group name must differ from the one in test-pr.yml, which runs for the same
+# builds.
+concurrency:
+  group: test-pr-wrynose-${{ github.event.workflow_run.head_repository.full_name }}-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
