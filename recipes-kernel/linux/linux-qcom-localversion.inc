@@ -12,7 +12,11 @@ def qcom_kernel_localversion(d):
         bb.warn('Cannot resolve the kernel source revision: %s' % e)
         return ''
     scms = [ud for ud in fetcher.ud.values() if ud.method.supports_srcrev()]
-    rev = (scms[0].revision or '').lower() if scms else ''
+    # The task signature code expands this with an empty SRC_URI
+    # (BB_HASH_CODEPARSER_VALS), which has nothing to resolve
+    if not scms:
+        return ''
+    rev = (scms[0].revision or '').lower()
     if not re.fullmatch('[0-9a-f]{12,}', rev):
         bb.warn('Kernel source revision "%s" is not a commit id' % rev)
         return ''
