@@ -7,8 +7,8 @@ on:
   # NOTE - changes to the cron spec should be pushed by https://github.com/quic-yocto-ci
   # so that build notification emails will be sent out properly.
   # At 0:23 UTC from Sunday to Friday - picked a random "minute" as top of hour
-  # can be busy in github. Saturday is covered by the weekly build, which builds
-  # a superset of this matrix.
+  # can be busy in github. Saturday is covered by the extended build, which
+  # builds a superset of this matrix.
   - cron: "23 0 * * 0-5"
 
 permissions:
